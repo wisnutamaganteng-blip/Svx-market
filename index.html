@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SvX Market — Tamzy SvX Market – T5</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:#06070e;--surface:#0b0c18;--card:#10111e;--border:#1c1d32;
+      --accent:#6c63ff;--pink:#ff3d8a;--cyan:#00f0c8;--gold:#ffd84d;
+      --text:#eeeef8;--muted:#636480;--ok:#00d68f;--r:16px;
+    }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+    body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+      background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.035'/%3E%3C/svg%3E");opacity:.5}
+    .blob{position:fixed;border-radius:50%;filter:blur(130px);pointer-events:none;z-index:0}
+    .b1{width:700px;height:700px;background:rgba(108,99,255,.18);top:-250px;left:-250px}
+    .b2{width:600px;height:600px;background:rgba(255,61,138,.14);bottom:-200px;right:-200px}
+    .b3{width:400px;height:400px;background:rgba(0,240,200,.07);top:40%;left:40%}
+
+    /* NAV */
+    nav{position:sticky;top:0;z-index:200;background:rgba(6,7,14,.82);backdrop-filter:blur(28px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 36px;height:64px;}
+    .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+    .nav-logo img{height:36px;width:auto;object-fit:contain;filter:drop-shadow(0 0 8px rgba(108,99,255,.5))}
+    .nav-logo-text{font-weight:900;font-size:1.2rem;letter-spacing:-.5px;line-height:1}
+    .nav-logo-text span{color:var(--accent)}
+    .nav-logo-sub{font-size:.65rem;color:var(--muted);font-family:'JetBrains Mono',monospace;letter-spacing:1px}
+    .nav-links{display:flex;gap:4px}
+    .nav-link{color:var(--muted);text-decoration:none;font-size:.88rem;font-weight:500;padding:7px 14px;border-radius:9px;transition:.2s}
+    .nav-link:hover{color:var(--text);background:rgba(255,255,255,.05)}
+    .nav-right{display:flex;gap:10px;align-items:center}
+    .btn-tg-nav{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#2AABEE,#1a8fd1);color:#fff;border:none;padding:9px 20px;border-radius:10px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.88rem;cursor:pointer;text-decoration:none;transition:.25s;}
+    .btn-tg-nav:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(42,171,238,.4)}
+
+    /* WRAP */
+    .wrap{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 36px}
+
+    /* HERO */
+    .hero{padding:80px 0 60px;text-align:center}
+    .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(108,99,255,.1);border:1px solid rgba(108,99,255,.3);color:var(--accent);padding:5px 18px;border-radius:100px;font-size:.75rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:24px;animation:up .6s ease both;}
+    .pulse{width:6px;height:6px;background:var(--accent);border-radius:50%;animation:blink 1.8s infinite}
+    .hero-title{font-size:clamp(2.6rem,6.5vw,5rem);font-weight:900;line-height:1.0;letter-spacing:-2.5px;margin-bottom:16px;animation:up .7s .1s ease both;}
+    .hero-title .t1{background:linear-gradient(135deg,#fff 20%,var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .hero-title .t2{-webkit-text-stroke:2px var(--pink);color:transparent;display:inline-block;}
+    .hero-title .t3{color:var(--gold)}
+    .hero-sub{color:var(--muted);font-size:1rem;max-width:460px;margin:0 auto 36px;line-height:1.8;animation:up .7s .2s ease both}
+
+    /* SLIDER */
+    .slider-wrap{position:relative;max-width:780px;margin:0 auto 32px;border-radius:20px;overflow:hidden;border:1px solid rgba(108,99,255,.35);box-shadow:0 0 0 1px rgba(108,99,255,.1),0 20px 60px rgba(0,0,0,.5),0 0 80px rgba(108,99,255,.12);animation:up .7s .25s ease both;}
+    .slider-track{display:flex;transition:transform .5s cubic-bezier(.4,0,.2,1)}
+    .slide{min-width:100%;flex-shrink:0;position:relative}
+    .slide-bg{width:100%;aspect-ratio:16/7;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+    .slide1-bg{background:linear-gradient(135deg,#06070e 0%,#0d0e22 30%,#141035 60%,#1a0d2e 100%)}
+    .slide2-bg{background:linear-gradient(135deg,#06070e 0%,#0a0f1e,#050d1a)}
+    .slide-bg::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(108,99,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(108,99,255,.06) 1px,transparent 1px);background-size:40px 40px;}
+    .slide-bg::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 70% at 50% 50%,rgba(108,99,255,.15) 0%,transparent 70%);}
+    .slide-content{position:relative;z-index:1;text-align:center;padding:20px}
+    .slide-logo{height:80px;width:auto;object-fit:contain;filter:drop-shadow(0 0 20px rgba(108,99,255,.6)) drop-shadow(0 0 40px rgba(255,61,138,.3));margin-bottom:12px}
+    .slide-title{font-size:1.8rem;font-weight:900;letter-spacing:-1px;line-height:1.1}
+    .slide-sub{color:rgba(255,255,255,.5);font-size:.85rem;margin-top:6px;font-family:'JetBrains Mono',monospace;letter-spacing:1px}
+    .slide2-orb1{position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(108,99,255,.3),transparent 70%);top:-50px;left:-80px}
+    .slide2-orb2{position:absolute;width:250px;height:250px;border-radius:50%;background:radial-gradient(circle,rgba(255,61,138,.25),transparent 70%);bottom:-40px;right:-60px}
+    .slide2-content{position:relative;z-index:1;text-align:center;padding:20px}
+    .slide2-badge{display:inline-block;background:rgba(0,240,200,.1);border:1px solid rgba(0,240,200,.3);color:var(--cyan);padding:4px 14px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;letter-spacing:2px;margin-bottom:12px;}
+    .slide2-title{font-size:1.9rem;font-weight:900;letter-spacing:-1px;line-height:1.1}
+    .slide2-title span{color:var(--cyan)}
+    .slide2-sub{color:var(--muted);font-size:.82rem;margin-top:8px}
+    .slide2-stats{display:flex;gap:24px;justify-content:center;margin-top:16px}
+    .s2-stat{text-align:center}
+    .s2-num{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:1.1rem;color:var(--gold)}
+    .s2-lbl{font-size:.7rem;color:var(--muted);margin-top:2px}
+    .sl-btn{position:absolute;top:50%;transform:translateY(-50%);z-index:10;background:rgba(6,7,14,.7);border:1px solid var(--border);color:var(--text);width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:1rem;backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;transition:.2s;}
+    .sl-btn:hover{background:var(--accent);border-color:var(--accent)}
+    .sl-prev{left:12px}.sl-next{right:12px}
+    .sl-dots{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10;}
+    .sl-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer;transition:.3s}
+    .sl-dot.active{width:20px;border-radius:3px;background:var(--accent)}
+
+    /* CTA */
+    .hero-ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;animation:up .7s .35s ease both}
+    .btn-p{display:inline-flex;align-items:center;gap:9px;background:linear-gradient(135deg,var(--accent),#9b6fff);color:#fff;border:none;padding:13px 28px;border-radius:12px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.95rem;cursor:pointer;text-decoration:none;transition:.3s;}
+    .btn-p:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(108,99,255,.45)}
+    .btn-g{display:inline-flex;align-items:center;gap:9px;background:transparent;color:var(--text);border:1px solid var(--border);padding:13px 28px;border-radius:12px;font-family:'Outfit',sans-serif;font-weight:600;font-size:.95rem;cursor:pointer;text-decoration:none;transition:.3s;}
+    .btn-g:hover{border-color:var(--accent);color:var(--accent);background:rgba(108,99,255,.06)}
+    .chip-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:28px;animation:up .7s .45s ease both}
+    .chip{display:inline-flex;align-items:center;gap:7px;background:var(--card);border:1px solid var(--border);color:var(--muted);padding:7px 15px;border-radius:100px;font-size:.8rem;font-weight:600;text-decoration:none;transition:.25s;}
+    .chip:hover{transform:translateY(-2px);color:var(--text)}
+
+    /* STATS */
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin:56px 0;animation:up .7s .5s ease both;}
+    .s-item{text-align:center;padding:26px 16px;border-right:1px solid var(--border)}
+    .s-item:last-child{border-right:none}
+    .s-num{font-size:1.9rem;font-weight:900;letter-spacing:-1px;background:linear-gradient(135deg,var(--accent),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .s-lbl{color:var(--muted);font-size:.78rem;margin-top:4px;font-weight:500}
+
+    /* SECTION */
+    .sec{padding-top:12px;margin-bottom:64px}
+    .sec-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px}
+    .sec-ttl{font-size:1.45rem;font-weight:800;letter-spacing:-.5px}
+    .sec-ttl span{color:var(--accent)}
+    .sec-tag{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--muted);background:var(--surface);border:1px solid var(--border);padding:4px 10px;border-radius:6px;}
+
+    /* TABS */
+    .tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:24px}
+    .tab{background:var(--card);border:1px solid var(--border);color:var(--muted);padding:7px 18px;border-radius:100px;font-family:'Outfit',sans-serif;font-size:.83rem;font-weight:600;cursor:pointer;transition:.2s;}
+    .tab:hover{color:var(--text);border-color:rgba(108,99,255,.4)}
+    .tab.active{background:var(--accent);border-color:var(--accent);color:#fff}
+
+    /* CONTACT */
+    .contact-wrap{display:flex;flex-wrap:wrap;gap:12px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:28px;}
+    .c-pill{display:inline-flex;align-items:center;gap:10px;padding:10px 20px;border-radius:100px;color:#fff;text-decoration:none;font-weight:600;font-size:.88rem;border:1px solid rgba(255,255,255,.08);transition:.25s;}
+    .c-pill:hover{transform:translateY(-2px);filter:brightness(1.1)}
+    .cp-tg{background:rgba(42,171,238,.15);border-color:rgba(42,171,238,.3)}
+    .cp-tg2{background:rgba(108,99,255,.15);border-color:rgba(108,99,255,.3)}
+    .cp-bot{background:rgba(0,240,200,.1);border-color:rgba(0,240,200,.25)}
+    .cp-ig{background:rgba(225,48,108,.15);border-color:rgba(225,48,108,.3)}
+    .cp-tt{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.15)}
+    .cp-pay{background:rgba(255,216,77,.1);border-color:rgba(255,216,77,.25)}
+
+    /* PRODUCT GRID */
+    .prod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(272px,1fr));gap:18px}
+    .prod-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:.3s;cursor:pointer;}
+    .prod-card:hover{border-color:rgba(108,99,255,.5);transform:translateY(-4px);box-shadow:0 24px 48px rgba(108,99,255,.15)}
+    .prod-thumb{height:148px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+    .prod-thumb img{width:76px;height:76px;object-fit:contain;border-radius:18px;filter:drop-shadow(0 8px 20px rgba(0,0,0,.6));position:relative;z-index:1}
+    .prod-thumb::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,var(--card))}
+    .p-label{position:absolute;top:12px;left:12px;z-index:2;font-size:.68rem;font-weight:800;text-transform:uppercase;padding:3px 10px;border-radius:100px;letter-spacing:.5px;}
+    .lhot{background:var(--pink);color:#fff}
+    .lnew{background:var(--accent);color:#fff}
+    .lpop{background:linear-gradient(135deg,var(--gold),#ff9500);color:#000}
+    .prod-body{padding:16px}
+    .p-cat{color:var(--accent);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
+    .p-name{font-weight:800;font-size:.98rem;margin-bottom:6px;line-height:1.3}
+    .p-desc{color:var(--muted);font-size:.8rem;line-height:1.65;margin-bottom:12px}
+
+    /* PRICE TABLE in card */
+    .price-table{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+    .price-row{display:flex;justify-content:space-between;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:.8rem;}
+    .price-tier{color:var(--muted);font-weight:600}
+    .price-val{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--gold)}
+    .price-range{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--gold);font-size:1rem}
+
+    .p-foot{display:flex;align-items:center;justify-content:space-between}
+    .p-stok{font-size:.72rem;color:var(--muted)}
+    .btn-beli{display:inline-flex;align-items:center;gap:7px;background:linear-gradient(135deg,var(--accent),#9b6fff);color:#fff;border:none;padding:9px 18px;border-radius:9px;font-family:'Outfit',sans-serif;font-weight:700;font-size:.83rem;cursor:pointer;transition:.2s;}
+    .btn-beli:hover{transform:scale(1.06);box-shadow:0 8px 20px rgba(108,99,255,.4)}
+
+    /* JASA CARD */
+    .jasa-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+    .jasa-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:20px;display:flex;gap:14px;align-items:flex-start;transition:.3s;cursor:pointer;}
+    .jasa-card:hover{border-color:rgba(108,99,255,.4);transform:translateY(-3px);box-shadow:0 16px 40px rgba(108,99,255,.12)}
+    .jasa-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;background:rgba(108,99,255,.12);border:1px solid rgba(108,99,255,.2)}
+    .jasa-body h4{font-weight:800;font-size:.95rem;margin-bottom:4px}
+    .jasa-body p{color:var(--muted);font-size:.78rem;line-height:1.6;margin-bottom:8px}
+    .jasa-price{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--gold);font-size:.88rem}
+    .jasa-btn{display:inline-flex;align-items:center;gap:6px;background:rgba(108,99,255,.15);border:1px solid rgba(108,99,255,.3);color:var(--accent);padding:5px 12px;border-radius:7px;font-size:.75rem;font-weight:700;cursor:pointer;transition:.2s;text-decoration:none;}
+    .jasa-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+    /* STEPS */
+    .steps-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px}
+    .step-c{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:28px 22px;text-align:center;position:relative;overflow:hidden;transition:.25s;}
+    .step-c:hover{border-color:rgba(108,99,255,.4);transform:translateY(-3px)}
+    .step-c::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--pink))}
+    .step-n{font-family:'JetBrains Mono',monospace;font-size:3rem;font-weight:700;opacity:.07;margin-bottom:6px}
+    .step-icon{font-size:2.2rem;margin-bottom:10px}
+    .step-title{font-weight:700;font-size:.93rem;margin-bottom:8px}
+    .step-desc{color:var(--muted);font-size:.8rem;line-height:1.7}
+
+    /* SOCIAL */
+    .soc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+    .soc-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:22px;display:flex;gap:14px;align-items:center;text-decoration:none;color:var(--text);transition:.3s;}
+    .soc-card:hover{transform:translateY(-3px)}
+    .soc-info h4{font-weight:700;font-size:.93rem}
+    .soc-handle{color:var(--accent);font-size:.78rem;margin-top:2px;font-family:'JetBrains Mono',monospace}
+    .soc-desc{color:var(--muted);font-size:.76rem;margin-top:4px}
+
+    /* MODAL */
+    .ov{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.78);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s;}
+    .ov.open{opacity:1;pointer-events:all}
+    .modal{background:var(--card);border:1px solid var(--border);border-radius:22px;padding:34px;max-width:480px;width:100%;transform:translateY(24px) scale(.94);transition:all .38s cubic-bezier(.34,1.56,.64,1);max-height:90vh;overflow-y:auto;}
+    .ov.open .modal{transform:translateY(0) scale(1)}
+    .mh{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+    .mt{font-weight:900;font-size:1.2rem}
+    .mx{background:var(--surface);border:1px solid var(--border);color:var(--muted);width:34px;height:34px;border-radius:9px;cursor:pointer;font-size:.95rem;transition:.2s;flex-shrink:0}
+    .mx:hover{background:rgba(255,61,138,.15);color:var(--pink);border-color:var(--pink)}
+    .m-prod{display:flex;gap:14px;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:14px;margin-bottom:16px;}
+    .m-prod img{width:52px;height:52px;border-radius:14px;object-fit:contain}
+    .m-pname{font-weight:800;font-size:1rem}
+    .m-tiers{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+    .m-tier{display:flex;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px;}
+    .m-tier-name{font-weight:600;font-size:.88rem}
+    .m-tier-price{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--gold);font-size:.9rem}
+    .m-note{background:rgba(0,240,200,.07);border:1px solid rgba(0,240,200,.2);border-radius:11px;padding:13px;color:#7ff5e5;font-size:.82rem;line-height:1.7;margin-bottom:16px;display:flex;gap:10px;align-items:flex-start;}
+    .btn-tgo{width:100%;background:linear-gradient(135deg,#2AABEE,#1a8fd1);color:#fff;border:none;padding:14px;border-radius:13px;font-family:'Outfit',sans-serif;font-weight:800;font-size:.97rem;cursor:pointer;transition:.3s;display:flex;align-items:center;justify-content:center;gap:10px;text-decoration:none;}
+    .btn-tgo:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(42,171,238,.45)}
+
+    /* PAYMENT MODAL */
+    .pay-m-item{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+    .pay-m-ic{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.4rem}
+    .pay-m-info{flex:1}
+    .pay-m-name{font-weight:700;font-size:.9rem}
+    .pay-m-num{font-family:'JetBrains Mono',monospace;font-size:.85rem;color:var(--accent);margin-top:2px}
+    .copy-btn{background:rgba(108,99,255,.15);color:var(--accent);border:none;padding:5px 12px;border-radius:7px;font-family:'Outfit',sans-serif;font-size:.75rem;font-weight:700;cursor:pointer;transition:.2s;}
+    .copy-btn:hover{background:var(--accent);color:#fff}
+
+    /* TOAST */
+    .toast{position:fixed;bottom:22px;right:22px;z-index:9999;background:var(--card);border:1px solid var(--border);border-radius:13px;padding:13px 18px;display:flex;gap:10px;align-items:center;box-shadow:0 20px 40px rgba(0,0,0,.5);transform:translateY(80px);opacity:0;transition:all .4s cubic-bezier(.34,1.56,.64,1);max-width:280px;}
+    .toast.show{transform:translateY(0);opacity:1}
+
+    /* FOOTER */
+    footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:40px 36px;text-align:center;}
+    .f-logo{display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:10px}
+    .f-logo img{height:30px;filter:drop-shadow(0 0 6px rgba(108,99,255,.4))}
+    .f-logo span{font-weight:900;font-size:1.15rem;letter-spacing:-.5px}
+    .f-logo span em{font-style:normal;color:var(--accent)}
+    .f-text{color:var(--muted);font-size:.8rem;line-height:1.8}
+    .f-links{display:flex;gap:18px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+    .f-links a{color:var(--muted);text-decoration:none;font-size:.8rem;transition:.2s}
+    .f-links a:hover{color:var(--accent)}
+
+    @keyframes up{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+    @media(max-width:768px){
+      nav{padding:0 18px}.wrap{padding:0 18px}.hero{padding:52px 0 44px}
+      .stats{grid-template-columns:repeat(2,1fr)}.nav-links{display:none}
+      .hero-title{font-size:2.4rem;letter-spacing:-1.5px}
+    }
+  </style>
+</head>
+<body>
+<div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+
+<nav>
+  <a class="nav-logo" href="#">
+    <img src="https://files.catbox.moe/59o7y4.jpg" alt="Logo" onerror="this.style.display='none'">
+    <div>
+      <div class="nav-logo-text">SvX<span>.</span>Market</div>
+      <div class="nav-logo-sub">Tamzy SvX Market – T5</div>
+    </div>
+  </a>
+  <div class="nav-links">
+    <a href="#produk" class="nav-link">Produk</a>
+    <a href="#jasa" class="nav-link">Jasa</a>
+    <a href="#cara-order" class="nav-link">Cara Order</a>
+    <a href="#kontak" class="nav-link">Kontak</a>
+  </div>
+  <div class="nav-right">
+    <a href="https://t.me/vloidstore_bot" target="_blank" class="btn-tg-nav">
+      <svg viewBox="0 0 24 24" fill="white" width="16" height="16"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+      Bot Order
+    </a>
+  </div>
+</nav>
+
+<div class="wrap">
+  <section class="hero">
+    <div class="hero-badge"><span class="pulse"></span> Digital Marketplace</div>
+    <h1 class="hero-title">
+      <span class="t1">SvX</span> <span class="t2">Market</span><br>
+      <span style="font-size:55%;letter-spacing:-1px;font-weight:700;color:var(--muted)">by </span><span class="t3" style="font-size:70%">Tamzy SvX Market – T5</span>
+    </h1>
+
+    <!-- SLIDER -->
+    <div class="slider-wrap">
+      <div class="slider-track" id="slTrack">
+        <div class="slide">
+          <div class="slide-bg slide1-bg">
+            <div class="slide-content">
+              <img src="https://files.catbox.moe/59o7y4.jpg" alt="Tamzy" class="slide-logo" onerror="this.outerHTML='<div style=font-size:4rem;margin-bottom:12px>⚔️</div>'">
+              <div class="slide-title"><span style="background:linear-gradient(135deg,#fff,var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">SvX Market</span></div>
+              <div class="slide-sub">Tamzy SvX Market – T5
+              • Digital Marketplace</div>
+              <div style="display:flex;gap:12px;justify-content:center;margin-top:14px">
+                <span style="background:rgba(108,99,255,.15);border:1px solid rgba(108,99,255,.3);color:var(--accent);padding:4px 14px;border-radius:100px;font-size:.72rem;font-weight:700">ORDER 24/7</span>
+                <span style="background:rgba(0,240,200,.1);border:1px solid rgba(0,240,200,.25);color:var(--cyan);padding:4px 14px;border-radius:100px;font-size:.72rem;font-weight:700">INSTAN ⚡</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="slide">
+          <div class="slide-bg slide2-bg" style="background:linear-gradient(135deg,#06070e,#0a0f1e,#050d1a)">
+            <div class="slide2-orb1"></div><div class="slide2-orb2"></div>
+            <div class="slide2-content">
+              <div class="slide2-badge">SvX Market</div>
+              <div class="slide2-title">Produk <span>Digital</span><br>Terpercaya</div>
+              <div class="slide2-sub">Secret Vloid · APK · Jasa Build · Murrombak</div>
+              <div class="slide2-stats">
+                <div class="s2-stat"><div class="s2-num">10+</div><div class="s2-lbl">Produk</div></div>
+                <div class="s2-stat"><div class="s2-num">200+</div><div class="s2-lbl">Pembeli</div></div>
+                <div class="s2-stat"><div class="s2-num">4.8★</div><div class="s2-lbl">Rating</div></div>
+                <div class="s2-stat"><div class="s2-num">24/7</div><div class="s2-lbl">Aktif</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="sl-btn sl-prev" id="slPrev">❮</button>
+      <button class="sl-btn sl-next" id="slNext">❯</button>
+      <div class="sl-dots">
+        <div class="sl-dot active" onclick="goSlide(0)"></div>
+        <div class="sl-dot" onclick="goSlide(1)"></div>
+      </div>
+    </div>
+
+    <p class="hero-sub">Jual produk digital berkualitas — APK, tools AI, jasa build & rombak. Pengiriman instan ke chat Telegram kamu.</p>
+    <div class="hero-ctas">
+      <a href="#produk" class="btn-p">🛒 Lihat Produk</a>
+      <a href="https://t.me/rextoreid" target="_blank" class="btn-g">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+        Channel
+      </a>
+    </div>
+    <div class="chip-row">
+      <a href="https://t.me/rextoreid" target="_blank" class="chip" style="border-color:rgba(42,171,238,.3)">
+        <svg viewBox="0 0 24 24" fill="#2AABEE" width="16" height="16"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+        <span style="color:var(--text)">@rextoreid</span>
+      </a>
+      <a href="https://t.me/Tamzyxvcz" target="_blank" class="chip" style="border-color:rgba(108,99,255,.3)">
+        <svg viewBox="0 0 24 24" fill="var(--accent)" width="16" height="16"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+        <span style="color:var(--text)">@Tamzyxvcz</span>
+      </a>
+      <a href="https://instagram.com/Tamzyxvcz" target="_blank" class="chip" style="border-color:rgba(225,48,108,.3)">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none"><defs><radialGradient id="ig1" cx="30%" cy="107%" r="150%"><stop offset="0%" stop-color="#fdf497"/><stop offset="45%" stop-color="#fd5949"/><stop offset="60%" stop-color="#d6249f"/><stop offset="90%" stop-color="#285AEB"/></radialGradient></defs><rect width="24" height="24" rx="6" fill="url(#ig1)"/><circle cx="12" cy="12" r="4.5" stroke="white" stroke-width="1.5" fill="none"/><circle cx="17.5" cy="6.5" r="1" fill="white"/></svg>
+        <span style="color:var(--text)">@vloidstore</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="s-item"><div class="s-num">10+</div><div class="s-lbl">Total Produk</div></div>
+    <div class="s-item"><div class="s-num">200+</div><div class="s-lbl">Pembeli</div></div>
+    <div class="s-item"><div class="s-num">4.8★</div><div class="s-lbl">Rating</div></div>
+    <div class="s-item"><div class="s-num">24/7</div><div class="s-lbl">Jam Aktif</div></div>
+  </div>
+
+  <!-- KONTAK -->
+  <section class="sec" id="kontak">
+    <div class="sec-hd"><h2 class="sec-ttl">Kontak & <span>Layanan</span></h2><span class="sec-tag">// CONTACT</span></div>
+    <div class="contact-wrap">
+      <a href="https://t.me/rextoreid" target="_blank" class="c-pill cp-tg">
+        <svg viewBox="0 0 24 24" fill="#2AABEE" width="20" height="20"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+        Channel Jualan
+      </a>
+      <a href="https://t.me/Tamzyxvcz" target="_blank" class="c-pill cp-tg2">
+        <svg viewBox="0 0 24 24" fill="var(--accent)" width="20" height="20"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+        Admin Tamzy
+      </a>
+      <a href="https://t.me/vloidstore_bot" target="_blank" class="c-pill cp-bot">
+        <svg viewBox="0 0 24 24" fill="var(--cyan)" width="20" height="20"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 14.93V15a1 1 0 0 0-2 0v1.93A8 8 0 0 1 4.07 11H6a1 1 0 0 0 0-2H4.07A8 8 0 0 1 11 4.07V6a1 1 0 0 0 2 0V4.07A8 8 0 0 1 19.93 11H18a1 1 0 0 0 0 2h1.93A8 8 0 0 1 13 16.93z"/></svg>
+        Bot Order
+      </a>
+      <a href="https://t.me/Testimonitamzy" target="_blank" class="c-pill" style="background:rgba(0,214,143,.1);border-color:rgba(0,214,143,.25)">
+        <svg viewBox="0 0 24 24" fill="var(--ok)" width="20" height="20"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+        Testimoni
+      </a>
+      <a href="https://instagram.com/Tamzyxvcz" target="_blank" class="c-pill cp-ig">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none"><defs><radialGradient id="ig4" cx="30%" cy="107%" r="150%"><stop offset="0%" stop-color="#fdf497"/><stop offset="45%" stop-color="#fd5949"/><stop offset="60%" stop-color="#d6249f"/><stop offset="90%" stop-color="#285AEB"/></radialGradient></defs><rect width="24" height="24" rx="6" fill="url(#ig4)"/><circle cx="12" cy="12" r="4.5" stroke="white" stroke-width="1.5" fill="none"/><circle cx="17.5" cy="6.5" r="1" fill="white"/></svg>
+        Instagram
+      </a>
+      <a href="https://tiktok.com/@tamzyxvcz" target="_blank" class="c-pill cp-tt">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.74a4.85 4.85 0 01-1.01-.05z"/></svg>
+        TikTok
+      </a>
+      <a href="#" id="payBtn" class="c-pill cp-pay">
+        <svg viewBox="0 0 24 24" fill="var(--gold)" width="20" height="20"><path d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
+        Info Pembayaran
+      </a>
+    </div>
+  </section>
+
+  <!-- PRODUK -->
+  <section class="sec" id="produk">
+    <div class="sec-hd"><h2 class="sec-ttl">Daftar <span>Produk</span></h2><span class="sec-tag" id="prodCount">// 0 PRODUK</span></div>
+    <div class="tabs" id="tabsEl"></div>
+    <div class="prod-grid" id="prodGrid"></div>
+  </section>
+
+  <!-- JASA -->
+  <section class="sec" id="jasa">
+    <div class="sec-hd"><h2 class="sec-ttl">Daftar <span>Jasa</span></h2><span class="sec-tag">// SERVICES</span></div>
+    <div class="jasa-grid" id="jasaGrid"></div>
+  </section>
+
+  <!-- CARA ORDER -->
+  <section class="sec" id="cara-order">
+    <div class="sec-hd"><h2 class="sec-ttl">Cara <span>Order</span></h2><span class="sec-tag">// HOW TO</span></div>
+    <div class="steps-grid">
+      <div class="step-c"><div class="step-n">01</div><div class="step-icon">🛍️</div><div class="step-title">Pilih Produk / Jasa</div><div class="step-desc">Browse produk atau jasa di halaman ini, klik tombol <b>Order</b>.</div></div>
+      <div class="step-c"><div class="step-n">02</div><div class="step-icon">✈️</div><div class="step-title">Order via Bot/ /Admin</div><div class="step-desc">Kamu diarahkan ke Telegram admin/bot untuk konfirmasi order.</div></div>
+      <div class="step-c"><div class="step-n">03</div><div class="step-icon">💳</div><div class="step-title">Bayar</div><div class="step-desc">Transfer via DANA / GoPay / QRIS sesuai nominal, kirim bukti bayar.</div></div>
+      <div class="step-c"><div class="step-n">04</div><div class="step-icon">📦</div><div class="step-title">Terima Produk</div><div class="step-desc">Setelah dikonfirmasi, produk langsung dikirim ke chat Telegram kamu ✅</div></div>
+    </div>
+  </section>
+
+  <!-- SOSMED -->
+  <section class="sec" id="sosmed">
+    <div class="sec-hd"><h2 class="sec-ttl">Sosial <span>Media</span></h2><span class="sec-tag">// SOCIAL</span></div>
+    <div class="soc-grid" id="socGrid"></div>
+  </section>
+</div>
+
+<footer>
+  <div class="f-logo">
+    <img src="https://files.catbox.moe/59o7y4.jpg" alt="logo" onerror="this.style.display='none'">
+    <span>Tamzy<em>.</em>Market</span>
+  </div>
+  <div class="f-text">SvX-Team • Digital Marketplace • Order 24/7 via Telegram</div>
+  <div class="f-links">
+    <a href="#produk">Produk</a><a href="#jasa">Jasa</a>
+    <a href="#cara-order">Cara Order</a><a href="#kontak">Kontak</a>
+    <a href="https://t.me/rextoreid" target="_blank">Telegram</a>
+  </div>
+</footer>
+
+<!-- MODAL ORDER -->
+<div class="ov" id="ovOrder">
+  <div class="modal">
+    <div class="mh"><div class="mt">Konfirmasi Order</div><button class="mx" onclick="tutup('ovOrder')">✕</button></div>
+    <div class="m-prod">
+      <img id="mImg" src="" alt="" width="52" height="52" style="border-radius:14px;object-fit:contain">
+      <div><div class="m-pname" id="mNama">-</div><div style="color:var(--muted);font-size:.8rem;margin-top:3px" id="mCat">-</div></div>
+    </div>
+    <div class="m-tiers" id="mTiers"></div>
+    <div class="m-note"><span>ℹ️</span><span>Pilih paket di atas lalu klik tombol order. Kamu akan diarahkan ke Telegram untuk konfirmasi & bayar.</span></div>
+    <a href="#" id="mTgLink" target="_blank" class="btn-tgo">
+      <svg viewBox="0 0 24 24" fill="white" width="18" height="18"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+      Order via Telegram
+    </a>
+  </div>
+</div>
+
+<!-- MODAL PAYMENT -->
+<div class="ov" id="ovPay">
+  <div class="modal">
+    <div class="mh"><div class="mt">💳 Info Pembayaran</div><button class="mx" onclick="tutup('ovPay')">✕</button></div>
+    <div class="pay-m-item"><div class="pay-m-ic" style="background:rgba(0,115,230,.15)">💙</div><div class="pay-m-info"><div class="pay-m-name">DANA</div><div class="pay-m-num" id="numDana">08123456789</div></div><button class="copy-btn" onclick="salin('numDana',this)">Salin</button></div>
+    <div class="pay-m-item"><div class="pay-m-ic" style="background:rgba(0,170,169,.15)">💚</div><div class="pay-m-info"><div class="pay-m-name">GoPay</div><div class="pay-m-num" id="numGopay">08123456789</div></div><button class="copy-btn" onclick="salin('numGopay',this)">Salin</button></div>
+    <div class="pay-m-item"><div class="pay-m-ic" style="background:rgba(230,47,76,.15)">❤️</div><div class="pay-m-info"><div class="pay-m-name">QRIS</div><div class="pay-m-num">Scan QR — semua e-wallet</div></div></div>
+    <div style="background:rgba(108,99,255,.08);border:1px solid rgba(108,99,255,.2);border-radius:10px;padding:12px;color:var(--muted);font-size:.8rem;line-height:1.7;margin-top:4px">
+      💡 Setelah transfer kirim bukti ke <a href="https://t.me/Tamzyxvcz" target="_blank" style="color:var(--accent)">@Tamzyxvcz</a>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <div id="tIc" style="font-size:1.2rem">✓</div>
+  <div><div style="font-weight:700;font-size:.87rem" id="tTtl">OK</div><div style="color:var(--muted);font-size:.76rem" id="tMsg"></div></div>
+</div>
+
+<script>
+const BOT = "SvXMarket_bot";
+const ADMIN = "Tamzyxvcz";
+
+// ══════════════════════════════════════════════════
+// PRODUK DATA
+// ══════════════════════════════════════════════════
+const PRODUK = [
+  // ── SECRET VLOID X (TERPOPULER - di atas sendiri) ──
+  {
+    id: 1,
+    nama: "Secret~Vloid~X",
+    cat: "Apk Bug",
+    img: "https://files.catbox.moe/3qvi86.jpg",
+    bg: "#6c63ff",
+    label: "TERPOPULER",
+    desc: "V2.3 — Apk bug wa dengan tampilan yang moderen dan elegant.",
+    tiers: [
+      { nama: "Member 1 Bulan",    harga: 20000 },
+      { nama: "Member Permanen",   harga: 35000 },
+      { nama: "Reseller 1 Bulan",  harga: 45000 },
+      { nama: "Reseller Permanen", harga: 55000 },
+      { nama: "Partner Permanen",  harga: 70000 },
+      { nama: "Tangan Kanan",      harga: 90000 },
+      { nama: "Owner Permanen",    harga: 110000 },
+    ]
+  },
+  // ── APK NEXSUS ──
+  {
+    id: 2,
+    nama: "APK Nexsus",
+    cat: "APK",
+    img: "https://files.catbox.moe/g6s7uf.jpg",
+    bg: "#ff3d8a",
+    label: "HOT",
+    desc: "Aplikasi Bug WhatsApp canggih. Tersedia berbagai paket durasi dan level akses.",
+    tiers: [
+      { nama: "1 Hari",       harga: 5000 },
+      { nama: "1 Minggu",     harga: 30000 },
+      { nama: "Full Update",  harga: 50000 },
+      { nama: "Reseller",     harga: 70000 },
+      { nama: "Admin",        harga: 90000 },
+      { nama: "Partner",      harga: 110000 },
+    ]
+  },
+  // ── APK OTAX ──
+  {
+    id: 3,
+    nama: "APK Otax",
+    cat: "APK",
+    img: "https://files.catbox.moe/nti3mo.jpg",
+    bg: "#00f0c8",
+    label: "NEW",
+    desc: "APK premium dengan DP 50% dari harga asli. Sudah termasuk SC Otax gratis.",
+    tiers: [
+      { nama: "Full Update",  harga: 60000 },
+      { nama: "Reseller",     harga: 80000 },
+      { nama: "Partner",      harga: 100000 },
+    ]
+  },
+  // ── MURROMBAK / MURBUILD ──
+  {
+    id: 4,
+    nama: "MurRombak & MurBuild",
+    cat: "Murid",
+    img: "https://files.catbox.moe/obibyl.jpg",
+    bg: "#ffd84d",
+    label: "HOT",
+    desc: "3IN1 — Get all Tutorial, Prompt, Base, Bantuan, Ilmu & Jailbreak Claude.",
+    tiers: [
+      { nama: "MurRombak 3IN1",       harga: 35000 },
+      { nama: "MurBuild Member",      harga: 15000 },
+      { nama: "MurBuild Reseller",    harga: 25000 },
+      { nama: "MurBuild Owner",       harga: 35000 },
+    ]
+  },
+];
+
+// ══════════════════════════════════════════════════
+// JASA DATA
+// ══════════════════════════════════════════════════
+const JASA = [
+  { icon:"🔨", nama:"Jasa Build",              desc:"Bangun project Flutter/API dari nol sesuai kebutuhan.",       harga:"15.000 – 25.000" },
+  { icon:"🔧", nama:"Jasa Rombak",             desc:"Rombak / redesign project yang sudah ada jadi lebih keren.",  harga:"20.000 – 40.000" },
+  { icon:"🔗", nama:"Jasa Integrasi GitHub",   desc:"Integrasi project ke GitHub, setup CI/CD dan repo.",          harga:"15.000" },
+  { icon:"🌐", nama:"Jasa Pasang Sender Global",desc:"Pasang & konfigurasi sender global di project kamu.",        harga:"10.000" },
+  { icon:"🐛", nama:"Jasa Fix Flutter",        desc:"Fix semua error & bug di project Flutter kamu.",              harga:"10.000" },
+  { icon:"⚙️", nama:"Jasa Fix API Index.js",   desc:"Fix error di file API index.js, siap pakai kembali.",         harga:"10.000" },
+];
+
+// ══════════════════════════════════════════════════
+// SOSMED
+// ══════════════════════════════════════════════════
+const SOSMED = [
+  { nama:"Channel Jualan", handle:"@rextoreid",      icon:"tg",  link:"https://t.me/rextoreid",           desc:"Update produk & promo terbaru" },
+  { nama:"Admin Tamzy",    handle:"@Tamzyxvcz",      icon:"tg",  link:"https://t.me/Tamzyxvcz",           desc:"Chat langsung sama admin" },
+  { nama:"Testimoni",      handle:"@Testimonitamzy", icon:"tg",  link:"https://t.me/Testimonitamzy",      desc:"Lihat semua testimoni buyer" },
+  { nama:"Instagram",      handle:"Tamzyxvcz",     icon:"ig",  link:"https://instagram.com/Tamzyxvcz", desc:"Portofolio & review produk" },
+  { nama:"TikTok",         handle:"@tamzyxvcz",      icon:"tt",  link:"https://tiktok.com/@tamzyxvcz",    desc:"Konten & review seru" },
+];
+
+// ══════════════════════════════════════════════════
+// RENDER FUNCTIONS
+// ══════════════════════════════════════════════════
+function fmt(n){ return 'Rp '+Number(n).toLocaleString('id-ID') }
+
+// TABS
+const cats = ['Semua', ...new Set(PRODUK.map(p=>p.cat))];
+document.getElementById('tabsEl').innerHTML = cats.map((c,i)=>
+  `<button class="tab${i===0?' active':''}" onclick="filterTab('${c}',this)">${c}</button>`
+).join('');
+
+let activeCat = 'Semua';
+function filterTab(cat, el){
+  activeCat=cat;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  renderProduk();
+}
+
+function renderProduk(){
+  const list = activeCat==='Semua' ? PRODUK : PRODUK.filter(p=>p.cat===activeCat);
+  document.getElementById('prodCount').textContent = `// ${list.length} PRODUK`;
+  document.getElementById('prodGrid').innerHTML = list.map((p,i)=>{
+    const isPopuler = p.label==='TERPOPULER';
+    const labelClass = isPopuler ? 'lpop' : p.label==='HOT' ? 'lhot' : 'lnew';
+    const lbl = p.label ? `<div class="p-label ${labelClass}">${p.label}</div>` : '';
+    const priceHtml = p.tiers.length===1
+      ? `<div class="price-range">${fmt(p.tiers[0].harga)}</div>`
+      : `<div class="price-table">${p.tiers.slice(0,3).map(t=>
+          `<div class="price-row"><span class="price-tier">${t.nama}</span><span class="price-val">${fmt(t.harga)}</span></div>`
+        ).join('')}${p.tiers.length>3?`<div style="color:var(--muted);font-size:.73rem;padding:4px 2px">+${p.tiers.length-3} paket lainnya...</div>`:''}</div>`;
+    return `
+    <div class="prod-card" style="animation:up .5s ${i*.07}s ease both;${isPopuler?'border-color:rgba(255,216,77,.4);':''}" onclick="bukaOrder(${p.id})">
+      <div class="prod-thumb" style="background:linear-gradient(135deg,#0a0b18,${p.bg}33)">
+        ${lbl}
+        <img src="${p.img}" alt="${p.nama}" onerror="this.style.display='none'">
+        ${isPopuler?'<div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,216,77,.05),transparent);z-index:0"></div>':''}
+      </div>
+      <div class="prod-body">
+        <div class="p-cat">${p.cat}</div>
+        <div class="p-name">${p.nama}</div>
+        <div class="p-desc">${p.desc}</div>
+        ${priceHtml}
+        <div class="p-foot" style="margin-top:10px">
+          <span class="p-stok">${p.tiers.length} paket</span>
+          <button class="btn-beli" onclick="event.stopPropagation();bukaOrder(${p.id})">🛒 Order</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+renderProduk();
+
+// JASA
+document.getElementById('jasaGrid').innerHTML = JASA.map(j=>`
+  <div class="jasa-card" onclick="window.open('https://t.me/${ADMIN}','_blank')">
+    <div class="jasa-icon">${j.icon}</div>
+    <div class="jasa-body">
+      <h4>${j.nama}</h4>
+      <p>${j.desc}</p>
+      <div class="jasa-price">${j.harga}</div>
+      <div style="margin-top:10px">
+        <a href="https://t.me/${ADMIN}" target="_blank" class="jasa-btn">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+          Order Jasa
+        </a>
+      </div>
+    </div>
+  </div>`).join('');
+
+// SOSMED
+const TG_IC = `<svg viewBox="0 0 24 24" fill="#2AABEE" width="44" height="44" style="border-radius:12px;padding:6px;background:rgba(42,171,238,.15)"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>`;
+const IG_IC  = `<svg viewBox="0 0 24 24" width="44" height="44" fill="none"><defs><radialGradient id="ig5" cx="30%" cy="107%" r="150%"><stop offset="0%" stop-color="#fdf497"/><stop offset="45%" stop-color="#fd5949"/><stop offset="60%" stop-color="#d6249f"/><stop offset="90%" stop-color="#285AEB"/></radialGradient></defs><rect width="24" height="24" rx="6" fill="url(#ig5)"/><circle cx="12" cy="12" r="4.5" stroke="white" stroke-width="1.5" fill="none"/><circle cx="17.5" cy="6.5" r="1" fill="white"/></svg>`;
+const TT_IC  = `<svg viewBox="0 0 24 24" width="44" height="44" style="border-radius:12px;padding:5px;background:#111" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.74a4.85 4.85 0 01-1.01-.05z"/></svg>`;
+document.getElementById('socGrid').innerHTML = SOSMED.map(s=>`
+  <a href="${s.link}" target="_blank" class="soc-card">
+    <div>${s.icon==='ig'?IG_IC:s.icon==='tt'?TT_IC:TG_IC}</div>
+    <div class="soc-info"><h4>${s.nama}</h4><div class="soc-handle">${s.handle}</div><div class="soc-desc">${s.desc}</div></div>
+  </a>`).join('');
+
+// ══════════════════════════════════════════════════
+// SLIDER
+// ══════════════════════════════════════════════════
+let cur=0,timer;
+const track=document.getElementById('slTrack');
+const dots=document.querySelectorAll('.sl-dot');
+function goSlide(n){cur=n;track.style.transform=`translateX(-${cur*100}%)`;dots.forEach((d,i)=>d.classList.toggle('active',i===cur))}
+function nextSlide(){goSlide((cur+1)%2)}
+function startTimer(){timer=setInterval(nextSlide,3500)}
+function stopTimer(){clearInterval(timer)}
+document.getElementById('slNext').onclick=()=>{nextSlide();stopTimer();startTimer()};
+document.getElementById('slPrev').onclick=()=>{goSlide((cur-1+2)%2);stopTimer();startTimer()};
+document.querySelector('.slider-wrap').onmouseenter=stopTimer;
+document.querySelector('.slider-wrap').onmouseleave=startTimer;
+startTimer();
+
+// ══════════════════════════════════════════════════
+// MODAL ORDER
+// ══════════════════════════════════════════════════
+function bukaOrder(id){
+  const p=PRODUK.find(x=>x.id===id);
+  if(!p) return;
+  document.getElementById('mImg').src=p.img;
+  document.getElementById('mNama').textContent=p.nama;
+  document.getElementById('mCat').textContent=p.cat;
+  document.getElementById('mTiers').innerHTML=p.tiers.map(t=>`
+    <div class="m-tier" onclick="pilihTier('${p.nama}','${t.nama}',${t.harga})" style="cursor:pointer;transition:.2s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+      <span class="m-tier-name">${t.nama}</span>
+      <span class="m-tier-price">${fmt(t.harga)}</span>
+    </div>`).join('');
+  document.getElementById('mTgLink').href=`https://t.me/${BOT}?start=order_${p.id}`;
+  document.getElementById('ovOrder').classList.add('open');
+}
+function pilihTier(prodNama,tierNama,harga){
+  const msg=encodeURIComponent(`Halo min, saya mau order:\nProduk: ${prodNama}\nPaket: ${tierNama}\nHarga: ${fmt(harga)}`);
+  window.open(`https://t.me/${ADMIN}?text=${msg}`,'_blank');
+}
+
+document.getElementById('payBtn').onclick=(e)=>{e.preventDefault();document.getElementById('ovPay').classList.add('open')};
+function tutup(id){document.getElementById(id).classList.remove('open')}
+document.querySelectorAll('.ov').forEach(o=>o.addEventListener('click',function(e){if(e.target===this)this.classList.remove('open')}));
+
+// ══════════════════════════════════════════════════
+// UTILS
+// ══════════════════════════════════════════════════
+function salin(elId,btn){
+  const txt=document.getElementById(elId).textContent;
+  navigator.clipboard.writeText(txt).then(()=>{
+    btn.textContent='✓ OK';btn.style.background='var(--ok)';btn.style.color='#fff';
+    setTimeout(()=>{btn.textContent='Salin';btn.style.background='';btn.style.color=''},2000);
+    toast('✅','Disalin!','Nomor berhasil disalin.');
+  });
+}
+let tTimer;
+function toast(ic,ttl,msg){
+  document.getElementById('tIc').textContent=ic;
+  document.getElementById('tTtl').textContent=ttl;
+  document.getElementById('tMsg').textContent=msg;
+  document.getElementById('toast').classList.add('show');
+  clearTimeout(tTimer);
+  tTimer=setTimeout(()=>document.getElementById('toast').classList.remove('show'),3000);
+}
+</script>
+</body>
+</html>
